@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "691909958205",
+    "firebase_url": "https://project-6-ind.firebaseio.com",
+    "project_id": "project-6-ind",
+    "storage_bucket": "project-6-ind.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691909958205:android:10a4e26cee18eeb7f3e854",
+        "android_client_info": {
+          "package_name": "com.samone.project6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691909958205-34i1a248vckmtts8jhh2g8r2vvdhobnb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACPLuBkgjgHVyur2SF1ZqUONWZceu6ejo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691909958205-34i1a248vckmtts8jhh2g8r2vvdhobnb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
