@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.samone.project6
 
 import androidx.fragment.app.Fragment

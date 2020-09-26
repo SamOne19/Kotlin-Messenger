@@ -23,9 +23,11 @@ class RegisterActivity :AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+       /* we starts from intro of app
+        getStartedPage()*/
+
         register_button_register.setOnClickListener {
             performRegister()
-
         }
 
         already_have_account_text_view.setOnClickListener {
@@ -43,6 +45,11 @@ class RegisterActivity :AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
+    }
+
+    private fun getStartedPage() {
+        val intent = Intent(this, GetStartedActivity::class.java)
+        startActivity(intent)
     }
 
     var selectedPhotoUri: Uri? = null
@@ -124,8 +131,18 @@ class RegisterActivity :AppCompatActivity() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("RegisterActivity", "finally we saved the user to firebase database")
+
+                val intent = Intent(this, LatestMessagesActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+
+            }
+            .addOnFailureListener {
+                Log.d("RegisterActivity", "Failed to set value to database: ${it.message}")
             }
     }
 }
 
-class  User(val uid: String,val username: String, val profileImageUrl: String)
+class  User(val uid: String,val username: String, val profileImageUrl: String){
+    constructor() :this("","","")
+}
