@@ -1,10 +1,9 @@
 @file:Suppress("DEPRECATION")
 
-package com.samone.project6
+package com.samone.project6.registerlogin
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.samone.project6.R
+import com.samone.project6.messages.LatestMessagesActivity
+import com.samone.project6.models.User
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
@@ -126,7 +128,11 @@ class RegisterActivity :AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        val user = User(uid, username_edittext_register.text.toString(), profileImageUrl)
+        val user = User(
+            uid,
+            username_edittext_register.text.toString(),
+            profileImageUrl
+        )
 
         ref.setValue(user)
             .addOnSuccessListener {
@@ -143,6 +149,3 @@ class RegisterActivity :AppCompatActivity() {
     }
 }
 
-class  User(val uid: String,val username: String, val profileImageUrl: String){
-    constructor() :this("","","")
-}

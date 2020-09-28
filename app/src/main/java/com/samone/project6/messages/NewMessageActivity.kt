@@ -1,13 +1,15 @@
-package com.samone.project6
+package com.samone.project6.messages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.RecyclerView.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.samone.project6.R
+import com.samone.project6.models.User
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.activity_new_message.*
@@ -22,11 +24,11 @@ class NewMessageActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Select User"
 
-/*        val  adapter = GroupAdapter<GroupieViewHolder>()
-
-        recyclerView_newMessage.adapter =adapter*/
-
         fetchUsers()
+    }
+
+    companion object{
+        val USER_KEY = "USER_KEY"
     }
 
     private fun fetchUsers() {
@@ -41,6 +43,21 @@ class NewMessageActivity : AppCompatActivity() {
                     if (user != null){
                         adapter.add(UserItem(user))
                     }
+                }
+
+                adapter.setOnItemClickListener { item, view ->
+
+                    val userItem = item as UserItem
+
+                    val intent = Intent(view.context, ChatLogActivity::class.java)
+                    //this code line only provide username
+//                    intent.putExtra(USER_KEY,userItem.user.username)
+                    //this code line will help you pass the whole user object and its other info
+                    intent.putExtra(USER_KEY, userItem.user)
+                    startActivity(intent)
+
+                    finish()
+
                 }
 
                 recyclerView_newMessage.adapter = adapter
