@@ -1,10 +1,13 @@
 package com.samone.project6.registerlogin
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.samone.project6.R
+import com.samone.project6.messages.LatestMessagesActivity
+import com.samone.project6.messages.NewMessageActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity: AppCompatActivity() {
@@ -24,6 +27,10 @@ class LoginActivity: AppCompatActivity() {
                     if (!it.isSuccessful) return@addOnCompleteListener
 
                     //else if successful
+                    else if (it.isSuccessful){
+                        val intent = Intent(this, LatestMessagesActivity::class.java)
+                        startActivity(intent)
+                    }
                     Log.d("Login","Successfully logged in")
                 }
                 .addOnFailureListener {

@@ -36,6 +36,7 @@ class ChatLogActivity : AppCompatActivity() {
 
         recyclerView_chat_log.adapter = adapter
 
+
         toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
 
         supportActionBar?.title = toUser?.username
@@ -49,7 +50,9 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun listenForMessages(){
-        val ref  = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+        val ref  = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         ref.addChildEventListener(object: ChildEventListener {
 
@@ -57,7 +60,7 @@ class ChatLogActivity : AppCompatActivity() {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
 
                 if (chatMessage != null){
-                    Log.d(TAG,chatMessage?.text)
+                    Log.d(TAG, chatMessage.text)
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid){
                         val currentUser = LatestMessagesActivity.currentUser ?: return
@@ -87,8 +90,6 @@ class ChatLogActivity : AppCompatActivity() {
 
     }
 
-
-
     private fun performSendMessage() {
         //how do we actually send a message to firebase
         val text = editText_chat_log.text.toString()
@@ -99,14 +100,22 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (fromId == null) return
 
-        val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+       // val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+
+        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
 
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis()/1000)
         reference.setValue(chatMessage)
             .addOnSuccessListener {
                 //reference.key will give the id that is generated during message push to firebase
                 Log.d(TAG,"Saved our chat message: ${reference.key}")
+                editText_chat_log.text.clear()
+                recyclerView_chat_log.scrollToPosition(adapter.itemCount-1)
             }
+
+        toReference.setValue(chatMessage)
 
     }
 
