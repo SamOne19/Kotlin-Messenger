@@ -1,11 +1,17 @@
 package com.samone.project6.messages
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.DrawableContainer
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -24,9 +30,14 @@ class LatestMessagesActivity : AppCompatActivity() {
         var currentUser: User? = null
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
+
+        supportActionBar?.title = "Messenger"
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setIcon(R.drawable.ic_action_bar_logo)
 
         recyclerView_latest_messages.adapter = adapter
         recyclerView_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -141,7 +152,6 @@ class LatestMessagesActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
